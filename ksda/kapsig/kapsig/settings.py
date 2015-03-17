@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import ConfigParser
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -93,4 +94,11 @@ STATIC_URL = '/static/'
 
 
 # Email Stuff
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+config = ConfigParser.ConfigParser()
+config.read("config.ini")
+
+EMAIL_HOST = config.get('Email', 'Host')
+EMAIL_PORT = config.get('Email', 'Port')
+EMAIL_HOST_USER = config.get('Email', 'User')
+EMAIL_HOST_PASSWORD = config.get('Email', 'Password')
+EMAIL_USE_SSL = True

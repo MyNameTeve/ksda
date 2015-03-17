@@ -47,6 +47,7 @@ coverage.xml
 # Django stuff:
 *.log
 *.sqlite3
+*.ini
 
 # Vim stuff:
 *.swp
