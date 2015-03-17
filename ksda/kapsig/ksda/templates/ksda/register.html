@@ -1,0 +1,34 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block bodyBlock %}
+<p> Fill out the following form to register: </p>
+{% for error in form.non_field_errors %}
+    <p style='color: red;'>
+    {{ error }}
+    </p>
+{% endfor %}
+
+<form method="post" action="{% url 'register' %}">
+{% csrf_token %}
+<table>
+{% for field in form.visible_fields %}
+    <tr>
+        <td>{{field.label_tag}}</td>
+        <td>{{field}}</td>
+        <td style='color: red;'>{{field.errors}}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% for field in form.hidden_fields %}
+    {{field}}
+{% endfor %}
+
+<input type="submit" value="register" />
+</form>
+
+<a href='register'>Click here to register</a>
+
+
+{% endblock %}

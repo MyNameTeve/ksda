@@ -1,0 +1,167 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Waitsessions{% endblock %}
+
+{% block bodyBlock %}
+    <!-- AJAX !-->
+    <script type="text/javascript">
+        function jq( myid ) {
+            return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+        }
+
+        $(document).ready(function () {
+            $('body').on('click', '.waitsessionDelete', function(e) {
+                // 'Wait session ID'
+                wsid = $(this).parent().attr('id');
+
+                var jqxhr = $.post( "{% url 'deleteWaitsession' %}",
+                                    {id:wsid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                function(response) {
+                    $(e.target).parent().remove();
+                });
+            });
+            $('body').on('click', '.waitsessionToggle', function() {
+                $(this).parent().toggleClass('bg-danger');
+                $(this).parent().toggleClass('bg-info');
+                
+                if ($(this)[0].innerHTML.indexOf('Make Complete') != -1) {
+                    $(this)[0].innerHTML = '&#10003';
+                } else {
+                    $(this)[0].innerHTML = 'Make Complete';
+                } 
+
+                // 'Wait session ID'
+                wsid = $(this).parent().attr('id');
+
+                var jqxhr = $.post( "{% url 'toggleWaitsessionComplete' %}",
+                                    {id:wsid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                function(response) {
+                    console.log(response);
+                }).error(function(response) {
+                    console.error(response);    
+                });
+            });
+            var weekOffset = 0;
+            function getOffsetWeekInfoData() {
+                $.get( "{% url 'getWaitsessionInfo' %}", {weekOffset : weekOffset}, function( data ) {
+                    $("#waitsessions_displayed").html(data.weekly_info);
+                    $("#start_date").html(data.start_date);
+                    $("#end_date").html(data.end_date);
+                }).error(function(response) {
+                    console.error(response);    
+                });
+            }
+            $('#rightButton').on('click', function() {
+                weekOffset += 1;
+                getOffsetWeekInfoData();    
+            });
+            $('#leftButton').on('click', function() {
+                weekOffset -= 1;
+                getOffsetWeekInfoData();    
+            });
+
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-md-6"> <!-- Show Wait Sessions !-->
+            <div class="row">
+                <h5 class="col-md-10"> Wait Sessions <span id="start_date"> {{start_date}} </span> to <span id="end_date"> {{end_date}} </span> </h5>
+                <button type="button" id="leftButton" class="col-md-1 btn btn-default" aria-label="Left">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </button>
+                <button type="button" id="rightButton" class="col-md-1 btn btn-default" aria-label="Right">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div id='waitsessions_displayed'>
+                {% autoescape off %}
+                {{ weekly_info }}
+                {% endautoescape %}
+            </div>
+        </div>
+        <div class="col-md-5"> <!-- Show Brother Roll !-->
+            <div class="row">
+                <h4 class="col-md-10"> Active Brother Roll </h4>
+            </div>
+            <table class="table table-striped" data-toggle="table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Name</th>
+                        <th>Waitunits</th>
+                        <th>Days Free</th>
+                    </tr>
+                </thead>
+                {% for brother in brothers %}
+                <tr> 
+                    <td> {{ brother.0 }} </td> 
+                    <td> {{ brother.1 }} </td> 
+                    <td> {{ brother.2 }} </td> 
+                    <td> {{ brother.3 }} </td> 
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% if waitsessionPower == True %}
+        <div> <!-- Add Wait Session !-->
+            <h4> Add Wait Session </h4>
+            {% for error in newWaitsessionForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newWaitsession' %}">
+            {% csrf_token %}
+            {{ newWaitsessionForm.media }} 
+            <table>
+            {% for field in newWaitsessionForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newWaitsessionForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Waitsession" />
+            </form>
+        </div>
+
+        <div> <!-- Add Wait Unit !-->
+            <h4> Add Wait Unit </h4>
+            {% for error in newWaitunitForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newWaitunit' %}">
+            {% csrf_token %}
+            {{ newWaitunitForm.media }} 
+            <table>
+            {% for field in newWaitunitForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newWaitunitForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Waitunit" />
+            </form>
+        </div>
+    {% endif %}
+    
+{% endblock %}

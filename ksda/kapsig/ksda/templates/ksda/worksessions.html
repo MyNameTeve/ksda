@@ -1,0 +1,226 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Worksessions{% endblock %}
+
+{% block bodyBlock %}
+    <!-- AJAX !-->
+    <script type="text/javascript">
+        function jq( myid ) {
+            return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+        }
+
+        $(document).ready(function () {
+            $('body').on('click', '.worksessionDelete', function(e) {
+                // 'Work session ID'
+                wsid = $(this).parent().attr('id');
+
+                var jqxhr = $.post( "{% url 'deleteWorksession' %}",
+                                    {id:wsid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                function(response) {
+                    $(e.target).parent().remove();
+                });
+            });
+            $('body').on('click', '.worksessionToggle', function() {
+                $(this).parent().toggleClass('bg-danger');
+                $(this).parent().toggleClass('bg-info');
+                
+                if ($(this)[0].innerHTML.indexOf('Make Complete') != -1) {
+                    $(this)[0].innerHTML = '&#10003';
+                } else {
+                    $(this)[0].innerHTML = 'Make Complete';
+                } 
+
+                // 'Work session ID'
+                wsid = $(this).parent().attr('id');
+
+                var jqxhr = $.post( "{% url 'toggleWorksessionComplete' %}",
+                                    {id:wsid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                function(response) {
+                    console.log(response);
+                }).error(function(response) {
+                    console.error(response);    
+                });
+            });
+            var weekOffset = 0;
+            function getOffsetWeekInfoData() {
+                $.get( "{% url 'getWorksessionInfo' %}", {weekOffset : weekOffset}, function( data ) {
+                    $("#worksessions_displayed").html(data.weekly_info);
+                    $("#start_date").html(data.start_date);
+                    $("#end_date").html(data.end_date);
+                }).error(function(response) {
+                    console.error(response);    
+                });
+            }
+            $('#rightButton').on('click', function() {
+                weekOffset += 1;
+                getOffsetWeekInfoData();    
+            });
+            $('#leftButton').on('click', function() {
+                weekOffset -= 1;
+                getOffsetWeekInfoData();    
+            });
+
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-md-6"> <!-- Show Work Sessions !-->
+            <div class="row">
+                <h5 class="col-md-10"> Work Sessions <span id="start_date"> {{start_date}} </span> to <span id="end_date"> {{end_date}} </span> </h5>
+                <button type="button" id="leftButton" class="col-md-1 btn btn-default" aria-label="Left">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </button>
+                <button type="button" id="rightButton" class="col-md-1 btn btn-default" aria-label="Right">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div id='worksessions_displayed'>
+                {% autoescape off %}
+                {{ weekly_info }}
+                {% endautoescape %}
+            </div>
+        </div>
+        <div class="col-md-5"> <!-- Show Brother Roll !-->
+            <div class="row">
+                <h4 class="col-md-10"> Active Brother Roll </h4>
+            </div>
+            <table class="table table-striped" data-toggle="table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Name</th>
+                        <th>Workunits</th>
+                        <th>Free This Weekend</th>
+                    </tr>
+                </thead>
+                {% for brother in brothers %}
+                <tr> 
+                    <td> {{ brother.0 }} </td> 
+                    <td> {{ brother.1 }} </td> 
+                    <td> {{ brother.2 }} </td> 
+                    <td> {{ brother.3 }} </td> 
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% if worksessionPower == True %}
+        <div> <!-- Add Work Session !-->
+            <h4> Add Work Session </h4>
+            {% for error in newWorksessionForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newWorksession' %}">
+            {% csrf_token %}
+            {{ newWorksessionForm.media }} 
+            <table>
+            {% for field in newWorksessionForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newWorksessionForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Worksession" />
+            </form>
+        </div>
+
+        <div> <!-- Add Work Unit !-->
+            <h4> Add Work Unit </h4>
+            {% for error in newWorkunitForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newWorkunit' %}">
+            {% csrf_token %}
+            {{ newWorkunitForm.media }} 
+            <table>
+            {% for field in newWorkunitForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newWorkunitForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Workunit" />
+            </form>
+        </div>
+
+        <div> <!-- Add Work Session Task !-->
+            <h4> Add Work Session Task </h4>
+            {% for error in newWorksessionTaskForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newWorksessionTask' %}">
+            {% csrf_token %}
+            {{ newWorksessionTaskForm.media }} 
+            <table>
+            {% for field in newWorksessionTaskForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newWorksessionTaskForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Worksession Task" />
+            </form>
+        </div>
+
+        <div> <!-- Deactivate Work Session Task !-->
+            <h4> Deactivate Work Session Task (will not delete anyone's units)</h4>
+            {% for error in deleteWorksessionTaskForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'deleteWorksessionTask' %}">
+            {% csrf_token %}
+            {{ deleteWorksessionTaskForm.media }} 
+            <table>
+            {% for field in deleteWorksessionTaskForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in deleteWorksessionTaskForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Deactivate a Worksession Task" />
+            </form>
+        </div>
+
+    {% endif %}
+    
+{% endblock %}

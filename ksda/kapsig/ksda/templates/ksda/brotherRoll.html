@@ -1,0 +1,113 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Brother Roll{% endblock %}
+
+{% block bodyBlock %}
+    <h2> Brother Roll </h2>
+    <table class="table table-striped" data-toggle="table">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Roles</th>
+            </tr>
+        </thead>
+        {% for brother in brothers %}
+        <tr> 
+            <td> {{ brother.0 }} </td> 
+            <td> <a href='{{ brother.1 }}'>{{ brother.2 }}</a> </td> 
+            <td> {{ brother.3 }} </td> 
+            <td> {{ brother.4 }} </td>
+            <td> {{ brother.5 }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if ecPower == True %}
+        <h2> EC User: {{ user.first_name }} {{ user.last_name }} ({{ user }})</h2>
+        <div> <!-- Edit Roles !-->
+             <h4> Assign Role </h4>
+            {% for error in assignRoleForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'assignRole' %}">
+            {% csrf_token %}
+            <table>
+            {% for field in assignRoleForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in assignRoleForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Assign Role" />
+            </form>
+        </div>
+        
+        <div> <!-- Create Roles !-->
+            <h4> Add Role </h4>
+            {% for error in newRoleForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'newRole' %}">
+            {% csrf_token %}
+            <table>
+            {% for field in newRoleForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in newRoleForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Create New Role" />
+            </form>
+        </div>
+        
+        <div> <!-- Delete Roles !-->
+            <h4> Delete Role </h4>
+            {% for error in deleteRoleForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'deleteRole' %}">
+            {% csrf_token %}
+            <table>
+            {% for field in deleteRoleForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in deleteRoleForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Delete Role" />
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

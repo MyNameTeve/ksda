@@ -1,0 +1,42 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block bodyBlock %}
+    {% if ecMembership == True %}
+        <h2> EC User: {{ user.first_name }} {{ user.last_name }} ({{ user }})</h2>
+
+        <div> <!-- Send Email !-->
+            <h4> Send Email </h4>
+            {% for error in sendEmailForm.non_field_errors %}
+                <p style='color: red;'>
+                {{ error }}
+                </p>
+            {% endfor %}
+
+            <form method="post" action="{% url 'sendEmail' %}">
+            {% csrf_token %}
+            <table>
+            {% for field in sendEmailForm.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td style='color: red;'>{{field.errors}}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            {% for field in sendEmailForm.hidden_fields %}
+                {{field}}
+            {% endfor %}
+
+            <input type="submit" value="Send Email" />
+            </form>
+        </div>
+
+        <div> <!-- Edit Roles !-->
+            <p> TODO EDIT ROLES </p>
+        </div>
+    {% else %}
+        <p> EC access denied </p>
+    {% endif %}
+{% endblock %}

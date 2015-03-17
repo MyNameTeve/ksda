@@ -1,0 +1,98 @@
+{% extends 'ksda/base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block bodyBlock %}
+    <h2> User: {{ userFirstName }} {{ userLastName }} ({{ user }})</h2>
+
+    
+    <div> <!-- Update Profile !-->
+        <h4> Update Profile </h4>
+        {% for error in updateProfileStandardForm.non_field_errors %}
+            <p style='color: red;'>
+            {{ error }}
+            </p>
+        {% endfor %}
+
+        <form method="post" action="{% url 'updateProfileStandard' %}">
+        {% csrf_token %}
+        {{updateProfileStandardForm.media}}
+        <table>
+        {% for field in updateProfileStandardForm.visible_fields %}
+            <tr>
+                <td>{{field.label_tag}}</td>
+                <td>{{field}}</td>
+                <td style='color: red;'>{{field.errors}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+            <input type='hidden' name='observedUser' value="{{ user }}">
+        {% for field in updateProfileStandardForm.hidden_fields %}
+            {{field}}
+        {% endfor %}
+
+        <input type="submit" value="Update Profile" />
+        </form>
+    </div>
+
+    <div> <!-- Update Profile Advanced !-->
+        <h4> Update Profile (EC Access Only)</h4>
+        {% for error in updateProfileAdvancedForm.non_field_errors %}
+            <p style='color: red;'>
+            {{ error }}
+            </p>
+        {% endfor %}
+
+        <form method="post" action="{% url 'updateProfileAdvanced' %}">
+        {% csrf_token %}
+        {{updateProfileAdvancedForm.media}}
+        <table>
+        {% for field in updateProfileAdvancedForm.visible_fields %}
+            <tr>
+                <td>{{field.label_tag}}</td>
+                <td>{{field}}</td>
+                <td style='color: red;'>{{field.errors}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+            <input type='hidden' name='observedUser' value="{{ user }}">
+        {% for field in updateProfileAdvancedForm.hidden_fields %}
+            {{field}}
+        {% endfor %}
+
+        <input type="submit" value="Update Profile" />
+        </form>
+    </div>
+
+    <div> <!-- Change Password !-->
+        <h4> Change Password </h4>
+        {% for error in changePasswordForm.non_field_errors %}
+            <p style='color: red;'>
+            {{ error }}
+            </p>
+        {% endfor %}
+
+        <form method="post" action="{% url 'changePassword' %}">
+        {% csrf_token %}
+        <table>
+        {% for field in changePasswordForm.visible_fields %}
+            <tr>
+                <td>{{field.label_tag}}</td>
+                <td>{{field}}</td>
+                <td style='color: red;'>{{field.errors}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+            <input type='hidden' name='observedUser' value="{{ user }}">
+        {% for field in changePasswordForm.hidden_fields %}
+            {{field}}
+        {% endfor %}
+
+        <input type="submit" value="Change Password" />
+        </form>
+    </div>
+
+
+{% endblock %}
+
+
