@@ -77,8 +77,7 @@ def register(request):
     new_user = User.objects.create_user(username=form.cleaned_data['username'],
                                         password=form.cleaned_data['password1'],
                                         first_name=form.cleaned_data['first_name'],
-                                        last_name=form.cleaned_data['last_name'],
-                                        email=form.cleaned_data['email'])
+                                        last_name=form.cleaned_data['last_name'])
 
     # Mark the user as inactive to prevent login before email confirmation.
     new_user.is_active = False
@@ -93,35 +92,49 @@ def register(request):
 
     new_brother = Brother(user=new_user,
                           worksessionbrotherinfo=new_worksessioninfo,
-                          waitsessionbrotherinfo=new_waitsessioninfo)
+                          waitsessionbrotherinfo=new_waitsessioninfo,
+                          email=form.cleaned_data['email'])
     new_brother.save()
 
+    # First brother in the brotherhood - no email confirmation required.
     if Brother.objects.count() == 1:
         initializeBrotherhood(new_brother)
         #TODO This isn't displayed 
         context['infoMessage'] = 'Congratulations on creating a new brotherhood!'
 
-    # Generate a one-time use token and an email message body
-    token = default_token_generator.make_token(new_user)
+        new_user.is_active = True
+        new_user.save()
+        new_user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password1'])
+        login(request, new_user)
+        return redirect('/ksda/')
+            
+    else:
+        # Generate a one-time use token and an email message body
+        token = default_token_generator.make_token(new_user)
 
-    email_body = """
+        email_body = """
     
-        Welcome to the Kappa Sigma Delta-Alpha. Please click the link below to
-        verify your email address and complete the registration of your account:
-    
-        http://%s%s
-    """ % (request.get_host(),
-           reverse('confirm', args=(new_user.username, token)))
+            A new user, %s %s, has attempted to register for Kappa Sigma Delta-Alpha. Please click the link below to confirm their registration.
+            http://%s%s
+        """ % (new_user.first_name,
+               new_user.last_name,
+               request.get_host(),
+               reverse('confirm', args=(new_user.username, token)))
 
-    #TODO change from_email
-    send_mail(subject="Verfiy your email address",
-              message=email_body,
-              from_email="rnved@andrew.cmu.edu",
-              recipient_list=[new_user.email])
-
-    context['email'] = form.cleaned_data['email']
+        #FIX THIS TO GET EC EMAILS.
+        ec = Role.objects.filter(ecPower=True)
+        ec_member_emails = []
+        for member in ec:
+            ec_member_emails.append(member.brother.email)
     
-    return render(request, 'ksda/needs-confirmation.html', context)
+        #Send email to admin for approval.
+        send_mail(subject="New Registration Requires Your Approval",
+                  message=email_body,
+                  from_email="kappasigmadeltaalpha@gmail.com",
+                  recipient_list=ec_member_emails)
+    
+        return render(request, 'ksda/needs-confirmation.html', context)
 
 @transaction.atomic
 def confirm_registration(request, username, token):
@@ -134,6 +147,21 @@ def confirm_registration(request, username, token):
     #Otherwise token was valid, activate the user.
     user.is_active = True
     user.save()
+
+    email_body = """
+    
+    Welcome to the Kappa Sigma Delta-Alpha. The admin has approved your registration. Please click on the link below to login.
+    
+    http://%s%s
+    """ % (request.get_host(), reverse('login'))
+
+    brother = Brother.objects.get(user=user)
+    
+    send_mail(subject="Your Request Has Been Approved",
+              message=email_body,
+              from_email="kappasigmadeltaalpha@gmail.com",
+              recipient_list=[brother.email])
+
     return render(request, 'ksda/confirmed.html', {})
 
 def doLogin(request):

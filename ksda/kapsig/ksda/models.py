@@ -65,7 +65,7 @@ class Brother(models.Model):
     pledge = models.BooleanField(default=False)
     order = models.DecimalField(max_digits=10, decimal_places=0, default=0)
     email = models.EmailField(max_length=200)
-    number = models.CharField(max_length=30,default='555-555-5555') # https://github.com/stefanfoulis/django-phonenumber-field
+    number = models.CharField(max_length=30,default='555-555-5555')
     waitsessionbrotherinfo = models.OneToOneField(WaitsessionBrotherInfo)
     worksessionbrotherinfo = models.OneToOneField(WorksessionBrotherInfo)
 
