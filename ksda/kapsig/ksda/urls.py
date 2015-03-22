@@ -29,6 +29,8 @@ urlpatterns = patterns('',
     url(r'^finances$', 'ksda.views.financesPage', name='finances'),
     
     url(r'^forum$', 'ksda.views.forumPage', name='forum'),
+
+    url(r'^calendar$', 'ksda.views.calendarPage', name='calendar'),
     
     url(r'^documents$', 'ksda.views.documentsPage', name='documents'),
 

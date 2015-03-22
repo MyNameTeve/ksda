@@ -168,6 +168,12 @@ def documentsPage(request):
     context = {}
     return render(request, 'ksda/documents.html', context) 
 
+@login_required
+def calendarPage(request):
+    print 'calendarPage'
+    context = {}
+    return render(request, 'ksda/calendar.html', context) 
+
 def showMain(request):
     print 'showMain'
     context = {}
