@@ -184,12 +184,14 @@ def doLogin(request):
 def financesPage(request):
     print 'financesPage'
     context = {}
-    return render(request, 'ksda/finances.html', context) 
+    return render(request, 'ksda/finances.html', context)
+
 @login_required
 def forumPage(request):
     print 'forumPage'
     context = {}
-    return render(request, 'ksda/forum.html', context) 
+    return render(request, 'ksda/forum.html', context)
+
 @login_required
 def documentsPage(request):
     print 'documentsPage'
@@ -198,7 +200,6 @@ def documentsPage(request):
 
 @login_required
 def calendarPage(request):
-    print 'calendarPage'
     context = {}
     return render(request, 'ksda/calendar.html', context) 
 
