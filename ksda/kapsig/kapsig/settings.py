@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'datetimewidget',
     'phonenumber_field',
-    'ksda'
+    'ksda',
 )
 
 LOGIN_URL = '/ksda/login'
@@ -91,7 +91,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2500000
 
 # Email Stuff
 config = ConfigParser.ConfigParser()

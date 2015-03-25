@@ -24,6 +24,7 @@ from views_waitsession import *
 from views_worksession import *
 from views_ec import *
 from views_brotherRoll import *
+from views_documents import *
 
 """
 Only called when DB is empty. First brother will get EC powers.
@@ -190,13 +191,7 @@ def financesPage(request):
 def forumPage(request):
     print 'forumPage'
     context = {}
-    return render(request, 'ksda/forum.html', context)
-
-@login_required
-def documentsPage(request):
-    print 'documentsPage'
-    context = {}
-    return render(request, 'ksda/documents.html', context) 
+    return render(request, 'ksda/forum.html', context) 
 
 @login_required
 def calendarPage(request):

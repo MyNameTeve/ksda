@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+# For FileUpload class
+from s3direct.fields import S3DirectField
+
 import datetime
 
 class WaitsessionBrotherInfo(models.Model):
@@ -130,10 +133,8 @@ class Waitsession(models.Model):
         return self.completed
 
     def toggleComplete(self):
-        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
-        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class WorksessionTask(models.Model):
     name = models.CharField(max_length=128)
@@ -160,10 +161,8 @@ class Worksession(models.Model):
         return self.completed
 
     def toggleComplete(self):
-        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
-        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class Group(models.Model):
     name = models.CharField(max_length=128)
@@ -176,3 +175,10 @@ class Membership(models.Model):
     person = models.ForeignKey(Brother)
     group = models.ForeignKey(Group)
 
+class Document(models.Model):
+    user = models.OneToOneField(User)
+    title = models.CharField(max_length=128)
+    file = models.CharField(blank=True, max_length=256)
+
+    def __str__(self):
+        return self.title
