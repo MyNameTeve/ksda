@@ -17,6 +17,7 @@ from django.core.mail import send_mail
 
 from ksda.models import *
 from ksda.forms import *
+from ksda.s3 import *
 
 # Import all other views to this main file.
 from views_profile import *
@@ -51,10 +52,21 @@ def initializeBrotherhood(brother):
     admin.save()
     
     """
-    Note: To remove this membership later, 
-    m = Membership.objects.get(person=brother,group=ec)
-    m.delete()
+        Note: To remove this membership later,
+        m = Membership.objects.get(person=brother,group=ec)
+        m.delete()
     """
+    
+    # Used for pre-populating database with already existing documents.
+    documents = initialize()
+    
+    for document in documents:
+        filename = document.name
+        url = document.generate_url(expires_in=0, query_auth=False)
+        new_document = Document(user=brother.user,
+                                filename=filename,
+                                url=url)
+        new_document.save()
 
 @transaction.atomic
 def register(request):

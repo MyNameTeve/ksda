@@ -22,10 +22,8 @@ def routeToDocumentsPage(request, originalContext):
     if 'form' not in originalContext:
         context['form'] = UploadForm()
 
-    # Add code to add documents to table
-    context['documents'] = Document.objects.all().values('user')
-    print len(context['documents'])
-
+    # Add documents to table
+    context['documents'] = Document.objects.all()
     context = dict(context.items() + originalContext.items())
 
     # Just display the upload form and document table if this is a GET request
@@ -41,15 +39,28 @@ def routeToDocumentsPage(request, originalContext):
     if not form.is_valid():
         return render(request, 'ksda/documents.html', context)
 
-    new_document = Document(user=request.user,
-                            title='Hello',
-                            file='')
-
     if form.cleaned_data['file'] is not None:
-        url = s3_upload(form.cleaned_data['file'], request.user.id)
-        new_document.file = url
+        filename = form.cleaned_data['file'].name
+        url = s3_upload(form.cleaned_data['file'], filename)
 
-    new_document.save()
+        # Check if a document by the same name already exists
+        try:
+            # Update the existing document
+            old_document = Document.objects.get(filename=filename)
+            s3_delete(filename)
+            old_document.url = url
+            old_document.save()
+        except:
+            # Uploading a new document
+            new_document = Document(user=request.user,
+                                    filename=filename,
+                                    url=url)
+            new_document.save()
+
+
+    # Add documents to table
+    context['documents'] = Document.objects.all()
+    context = dict(context.items() + originalContext.items())
 
     return render(request, 'ksda/documents.html', context)
 

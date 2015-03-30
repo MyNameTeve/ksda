@@ -176,9 +176,11 @@ class Membership(models.Model):
     group = models.ForeignKey(Group)
 
 class Document(models.Model):
-    user = models.OneToOneField(User)
-    title = models.CharField(max_length=128)
-    file = models.CharField(blank=True, max_length=256)
+    user = models.ForeignKey(User)
+    filename = models.CharField(max_length=128)
+    url = models.CharField(blank=True, max_length=256)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.filename

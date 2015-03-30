@@ -2,7 +2,7 @@
 {% block title %}Documents{% endblock %}
 
 {% block bodyBlock %}
-    <h2> Upload a Document </h2>
+    <h2> Upload Document </h2>
     <form enctype="multipart/form-data" method="post" action="{% url 'documents' %}">
         <table>
             {{form}}
@@ -23,12 +23,12 @@
             </tr>
         </thead>
     
-        {% for brother in brothers %}
+        {% for document in documents %}
         <tr>
-            <td> {{ brother.0 }} </td>
-            <td> <a href='{{ brother.1 }}'>{{ brother.2 }}</a> </td>
-            <td> {{ brother.3 }} </td>
-            <td> {{ brother.4 }} </td>
+            <td> <a href='{{ document.url }}'>{{ document.filename }}</a> </td>
+            <td> {{ document.user.first_name }} {{ document.user.last_name }} </td>
+            <td> {{ document.created }} </td>
+            <td> {{ document.updated }} </td>
         </tr>
         {% endfor %}
     </table>
