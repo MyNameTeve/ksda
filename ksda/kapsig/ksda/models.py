@@ -211,3 +211,14 @@ class TID(models.Model):
     def __unicode__(self):
         return self.title
 
+class Document(models.Model):
+    user = models.ForeignKey(User)
+    filename = models.CharField(max_length=128)
+    url = models.CharField(blank=True, max_length=256)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.filename
+
+

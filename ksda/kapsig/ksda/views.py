@@ -17,6 +17,7 @@ from django.core.mail import send_mail
 
 from ksda.models import *
 from ksda.forms import *
+from ksda.s3 import *
 
 # Import all other views to this main file.
 from views_profile import *
@@ -24,9 +25,9 @@ from views_waitsession import *
 from views_worksession import *
 from views_ec import *
 from views_brotherRoll import *
-
-from views_forum import*
-from views_threads import*
+from views_forum import *
+from views_threads import *
+from views_documents import *
 
 """
 Only called when DB is empty. First brother will get EC powers.
@@ -57,6 +58,18 @@ def initializeBrotherhood(brother):
     m = Membership.objects.get(person=brother,group=ec)
     m.delete()
     """
+
+    # Used for pre-populating database with already existing documents.
+    documents = initialize()
+    
+    for document in documents:
+        filename = document.name
+        url = document.generate_url(expires_in=0, query_auth=False)
+        new_document = Document(user=brother.user,
+                                filename=filename,
+                                url=url)
+        new_document.save()
+
 
 @transaction.atomic
 def register(request):
@@ -190,18 +203,6 @@ def financesPage(request):
     print 'financesPage'
     context = {}
     return render(request, 'ksda/finances.html', context)
-
-@login_required
-#def forumPage(request):
- #   print 'forumPage'
-  #  context = {}
-#    return render(request, 'ksda/forum.html', context)
-
-@login_required
-def documentsPage(request):
-    print 'documentsPage'
-    context = {}
-    return render(request, 'ksda/documents.html', context) 
 
 @login_required
 def calendarPage(request):
