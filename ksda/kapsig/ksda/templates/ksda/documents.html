@@ -1,6 +1,35 @@
 {% extends 'ksda/base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}Documents{% endblock %}
 
 {% block bodyBlock %}
-    <p> Documents page -- coming soon! </p>
+    <h2> Upload Document </h2>
+    <form enctype="multipart/form-data" method="post" action="{% url 'documents' %}">
+        <table>
+            {{form}}
+        </table>
+    
+        {% csrf_token %}
+        <input type="submit" value="upload" />
+    </form>
+
+    <h2> Document Repository </h2>
+    <table class="table table-striped" data-toggle="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Created</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+    
+        {% for document in documents %}
+        <tr>
+            <td> <a href='{{ document.url }}'>{{ document.filename }}</a> </td>
+            <td> {{ document.user.first_name }} {{ document.user.last_name }} </td>
+            <td> {{ document.created }} </td>
+            <td> {{ document.updated }} </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

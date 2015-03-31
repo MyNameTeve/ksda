@@ -9,6 +9,7 @@ from forms_ec import *
 from forms_waitsession import *
 from forms_worksession import *
 from forms_brotherRoll import *
+from forms_s3 import *
 
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(max_length = 30)
