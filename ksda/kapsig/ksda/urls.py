@@ -44,7 +44,6 @@ urlpatterns = patterns('',
     url(r'^newRole$', 'ksda.views.newRole', name='newRole'),
     url(r'^deleteRole$', 'ksda.views.deleteRole', name='deleteRole'),
 
-    url(r'^ec$', 'ksda.views.ecPage', name='ec'),
     url(r'^sendEmail$', 'ksda.views.sendEmail', name='sendEmail'),
     
     url(r'^login$', 'django.contrib.auth.views.login', {'template_name': 'ksda/login.html'}, name='login'),
