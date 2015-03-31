@@ -1,0 +1,29 @@
+
+{% for item in items %}
+<li class = "list-group-item"> 
+                    <!--
+                    {% if item.user_profile.picture_url %}
+                        <img src="{% url 'photo' item.user.id %}" alt="{{item.user_profile.username}}" width="50px">
+                        <br>
+                    {% endif %}
+                -->
+                    <b> User: {{item.brother.user}}   </b>
+                    <!-- <a type = "submit" class = "profile-btn" href="/ksda/users/{{item.user.id}}"> View profile </a> -->
+                    <br>
+                    <i>    Date: {{item.dateTime}} </i>
+                    <br>
+                    <b> Post: </b>
+                    <div class = "post-info"> {{item}} </div>
+                    <br>
+                    <ol class = "comment-group" id = "comment-group-{{item.id}}">
+                        {% for comment in item.comments.all %}
+                        {% include 'ksda/comment.html' %}
+                        {% endfor %}
+                    </ol>
+                    <b> Comment:</b>  <input id = "comment-{{item.id}}" type="text" name="item"> 
+                        <button text="Comment" onclick = "addComment({{item.id}})">Submit</button>
+                        
+                </li>
+                {% endfor %}
+
+               

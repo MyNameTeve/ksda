@@ -1,0 +1,16 @@
+
+<li class = "comment-group-item"> 
+    <!--
+    {% if comment.user_profile.picture_url %}
+        <img src="{% url 'photo' comment.user.id %}" alt="{{comment.user_profile.username}}" width="50px">
+        <br>
+    {% endif %}
+-->
+    <b> User: {{comment.brother.user}}   </b>
+    <a type = "submit" class = "profile-btn"> View profile </a>
+    <br>
+    <i>    Date: {{comment.dateTime}} </i>
+    <br>
+    <b> Comment: </b>
+    <div class = "post-info"> {{comment}} </div>
+    

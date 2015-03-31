@@ -15,10 +15,13 @@ def getUserInfo(request, user, originalContext):
     context['userLastName'] = user.last_name
     
     requestingBrother = Brother.objects.get(user=request.user)
+    print 'Requested by: ' + str(requestingBrother)
 
     brother = Brother.objects.get(user__username=user)
+    print 'Asking for: ' + str(brother)
     
     canEdit = requestingBrother.hasEcPower() or (requestingBrother == brother)
+    print 'Can edit: ' + str(canEdit)
     
     if 'changePasswordForm' not in originalContext:
         context['changePasswordForm'] = ChangePasswordForm(canEdit=canEdit)
@@ -62,11 +65,13 @@ def routeToProfile(request, user, context):
 
 @login_required
 def profilePage(request):
+    print 'profilePage'
     context = {}
     return routeToProfile(request, request.user, context)
 
 @login_required
 def profilePageObserved(request, observedUserName):
+    print 'profilePageObserved'
     user = User.objects.get(username=observedUserName)
     context = {}
     return routeToProfile(request, user, context)

@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-# For FileUpload class
-from s3direct.fields import S3DirectField
-
 import datetime
 
 class WaitsessionBrotherInfo(models.Model):
@@ -133,8 +130,10 @@ class Waitsession(models.Model):
         return self.completed
 
     def toggleComplete(self):
+        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
+        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class WorksessionTask(models.Model):
     name = models.CharField(max_length=128)
@@ -161,8 +160,10 @@ class Worksession(models.Model):
         return self.completed
 
     def toggleComplete(self):
+        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
+        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class Group(models.Model):
     name = models.CharField(max_length=128)
@@ -175,12 +176,38 @@ class Membership(models.Model):
     person = models.ForeignKey(Brother)
     group = models.ForeignKey(Group)
 
-class Document(models.Model):
-    user = models.ForeignKey(User)
-    filename = models.CharField(max_length=128)
-    url = models.CharField(blank=True, max_length=256)
+class Comment(models.Model):
+    text = models.CharField(max_length=160)
+    brother = models.ForeignKey('Brother', null=True)
+    dateTime = models.DateTimeField()
+    def __unicode__(self):
+        return self.text
+
+
+
+class Item(models.Model):
+    text = models.CharField(max_length=160)
+    brother = models.ForeignKey('Brother', null=True)
+    dateTime = models.DateTimeField()
+    comments = models.ManyToManyField(Comment)
+    def __unicode__(self):
+        return self.text
+
+class Thread(models.Model):
+    title = models.CharField(max_length = 100)
+    brother = models.ForeignKey('Brother', null = True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    threadID = models.IntegerField(default=0)
+    content = models.CharField(max_length = 1000)
+    url = models.CharField(blank=True, max_length=256)
+    responses = models.ManyToManyField(Item)
+    def __unicode__(self):
+        return self.title
 
-    def __str__(self):
-        return self.filename
+
+class TID(models.Model):
+    currentID = models.IntegerField(default=0)
+    def __unicode__(self):
+        return self.title
+
