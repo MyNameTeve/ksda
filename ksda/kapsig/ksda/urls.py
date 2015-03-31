@@ -29,6 +29,11 @@ urlpatterns = patterns('',
     url(r'^finances$', 'ksda.views.financesPage', name='finances'),
     
     url(r'^forum$', 'ksda.views.forumPage', name='forum'),
+    url(r'^post/(?P<id>\d+)$', 'ksda.views.post', name = 'post'),
+    url(r'^get-comment-html$', 'ksda.views.get_comment_html'),
+    url(r'^threads/(?P<id>\d+)$', 'ksda.views.threads', name = 'threads'),
+    url(r'^thread$', 'ksda.views.threads', name = 'thread'),
+    url(r'^new_thread', 'ksda.views.new_thread', name = 'new_thread'),
 
     url(r'^calendar$', 'ksda.views.calendarPage', name='calendar'),
     

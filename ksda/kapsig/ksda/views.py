@@ -25,6 +25,9 @@ from views_worksession import *
 from views_ec import *
 from views_brotherRoll import *
 
+from views_forum import*
+from views_threads import*
+
 """
 Only called when DB is empty. First brother will get EC powers.
 """
@@ -98,6 +101,8 @@ def register(request):
 
     # First brother in the brotherhood - no email confirmation required.
     if Brother.objects.count() == 1:
+        tid = TID(currentID = 0)
+        tid.save()
         initializeBrotherhood(new_brother)
         #TODO This isn't displayed 
         context['infoMessage'] = 'Congratulations on creating a new brotherhood!'
@@ -187,10 +192,10 @@ def financesPage(request):
     return render(request, 'ksda/finances.html', context)
 
 @login_required
-def forumPage(request):
-    print 'forumPage'
-    context = {}
-    return render(request, 'ksda/forum.html', context)
+#def forumPage(request):
+ #   print 'forumPage'
+  #  context = {}
+#    return render(request, 'ksda/forum.html', context)
 
 @login_required
 def documentsPage(request):

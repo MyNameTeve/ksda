@@ -2,5 +2,45 @@
 {% block title %}Home{% endblock %}
 
 {% block bodyBlock %}
-    <p> Forum page -- coming soon! </p>
+<script src="/static/ksda/jquery-2.1.3.min.js"></script>
+
+    <p>
+        <div class = "post-list">
+        <h1> Forum Threads: </h1>
+        <ol class = "list-group" id = "list-group">
+                
+                <table class="table table-striped" data-toggle="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>User</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                    </thead>
+                    {% for thread in threads %}
+                        <tr>
+                            <td> <a href = "/ksda/threads/{{thread.threadID}}">{{ thread.title }}</a> </td>
+                            <td> {{ thread.brother.user.first_name }} {{ thread.brother.user.last_name }} </td>
+                            <td> {{ thread.created }} </td>
+                            <td> {{ thread.updated }} </td>
+                        </tr>   
+                    {% endfor %}
+                </table>
+                
+            
+        </ol>
+    </div>
+    </p>
+
+
+<div class = "post-list">
+    <form action="/ksda/new_thread" method="post">
+        <table>
+        {{threadform}}
+    </table>
+        <input type="submit" text="Add item">
+        {% csrf_token %}
+    </form>
+</div>
 {% endblock %}

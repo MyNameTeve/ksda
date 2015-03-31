@@ -176,3 +176,38 @@ class Membership(models.Model):
     person = models.ForeignKey(Brother)
     group = models.ForeignKey(Group)
 
+class Comment(models.Model):
+    text = models.CharField(max_length=160)
+    brother = models.ForeignKey('Brother', null=True)
+    dateTime = models.DateTimeField()
+    def __unicode__(self):
+        return self.text
+
+
+
+class Item(models.Model):
+    text = models.CharField(max_length=160)
+    brother = models.ForeignKey('Brother', null=True)
+    dateTime = models.DateTimeField()
+    comments = models.ManyToManyField(Comment)
+    def __unicode__(self):
+        return self.text
+
+class Thread(models.Model):
+    title = models.CharField(max_length = 100)
+    brother = models.ForeignKey('Brother', null = True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    threadID = models.IntegerField(default=0)
+    content = models.CharField(max_length = 1000)
+    url = models.CharField(blank=True, max_length=256)
+    responses = models.ManyToManyField(Item)
+    def __unicode__(self):
+        return self.title
+
+
+class TID(models.Model):
+    currentID = models.IntegerField(default=0)
+    def __unicode__(self):
+        return self.title
+
