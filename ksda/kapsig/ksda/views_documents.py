@@ -50,12 +50,14 @@ def routeToDocumentsPage(request, originalContext):
             s3_delete(filename)
             old_document.url = url
             old_document.save()
+            context['successMessage'] = 'Updated existing document.'
         except:
             # Uploading a new document
             new_document = Document(user=request.user,
                                     filename=filename,
                                     url=url)
             new_document.save()
+            context['successMessage'] = 'Added new document.'
 
 
     # Add documents to table
