@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^calendar$', 'ksda.views.calendarPage', name='calendar'),
     
     url(r'^documents$', 'ksda.views.documentsPage', name='documents'),
+    url(r'^deleteDocument$', 'ksda.views.deleteDocument', name='deleteDocument'),
 
     url(r'^brotherRoll$', 'ksda.views.brotherRoll', name='brotherRoll'),
     url(r'^assignRole$', 'ksda.views.assignRole', name='assignRole'),

@@ -21,6 +21,8 @@ def routeToBrotherRollPage(request, originalContext):
 
     context['brothers'] = map(lambda b: b.brotherRollInfo(), Brother.objects.filter(active=True).order_by('order'));
 
+    context['pledges'] = map(lambda b: b.pledgeRollInfo(), Brother.objects.filter(pledge=True))
+
     if 'newRoleForm' not in originalContext:
         context['newRoleForm'] = NewRoleForm()
     
