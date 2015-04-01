@@ -16,8 +16,7 @@
                 var jqxhr = $.post( "{% url 'deleteDocument' %}",
                                     {id:docid, csrfmiddlewaretoken: '{{ csrf_token }}'},
                                     function(response) {
-                                        //$(e.target).parent().remove();
-                                        $(e.target).remove();
+                                        $(e.target).closest('tr').remove();
                                     });
             });
         });
@@ -49,7 +48,6 @@
     
         {% for document in documents %}
         <tr>
-            <div class='row'>
             <td> <a href='{{ document.url }}'>{{ document.filename }}</a> </td>
             <td> {{ document.user.first_name }} {{ document.user.last_name }} </td>
             <td> {{ document.created }} </td>
@@ -60,7 +58,6 @@
                  </div>
             {% endif %}
         </tr>
-        </div>
         {% endfor %}
     </table>
 {% endblock %}
