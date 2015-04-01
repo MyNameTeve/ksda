@@ -44,7 +44,7 @@ def new_thread(request):
         context['threadform'] = ThreadForm()
         context['threads'] = items
         context['errors'] = errors
-        return render(request, 'ksda/threads.html', context)
+        return render(request, 'ksda/forum.html', context)
 
     threadform = ThreadForm(request.POST)
     context['threadform'] = threadform
@@ -54,7 +54,7 @@ def new_thread(request):
         context['threadform'] = ThreadForm()
         context['threads'] = threads
         context['errors'] = errors
-        return render(request, 'ksda/threads.html', context)
+        return render(request, 'ksda/forum.html', context)
 
     # Just display the registration form if this is a GET request
 
@@ -72,5 +72,6 @@ def new_thread(request):
     context['threadform'] = ThreadForm()
     context['threads'] = threads
     context['errors'] = errors
+    context['successMessage'] = 'Created new thread.'
     return render(request, 'ksda/forum.html', context)
 
