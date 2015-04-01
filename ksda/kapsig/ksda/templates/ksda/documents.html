@@ -2,6 +2,27 @@
 {% block title %}Documents{% endblock %}
 
 {% block bodyBlock %}
+    <!-- AJAX !-->
+    <script type="text/javascript">
+        function jq( myid ) {
+            return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+        }
+
+        $(document).ready(function () {
+            $('body').on('click', '.documentDelete', function(e) {
+                // 'Document ID'
+                docid = $(this).parent().attr('id');
+                               
+                var jqxhr = $.post( "{% url 'deleteDocument' %}",
+                                    {id:docid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                                    function(response) {
+                                        //$(e.target).parent().remove();
+                                        $(e.target).remove();
+                                    });
+            });
+        });
+    </script>
+
     <h2> Upload Document </h2>
     <form enctype="multipart/form-data" method="post" action="{% url 'documents' %}">
         <table>
@@ -20,16 +41,26 @@
                 <th>User</th>
                 <th>Created</th>
                 <th>Updated</th>
+                {% if ecPower %}
+                <th>Delete?</th>
+                {% endif %}
             </tr>
         </thead>
     
         {% for document in documents %}
         <tr>
+            <div class='row'>
             <td> <a href='{{ document.url }}'>{{ document.filename }}</a> </td>
             <td> {{ document.user.first_name }} {{ document.user.last_name }} </td>
             <td> {{ document.created }} </td>
             <td> {{ document.updated }} </td>
+            {% if ecPower %}
+            <td> <div id={{ document.id }}>
+                    <button class='documentDelete'> Delete </button> </td>
+                 </div>
+            {% endif %}
         </tr>
+        </div>
         {% endfor %}
     </table>
 {% endblock %}

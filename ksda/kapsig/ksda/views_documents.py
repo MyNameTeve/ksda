@@ -3,10 +3,13 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 
 from ksda.models import *
 from ksda.forms import *
 from ksda.s3 import *
+
+import json
 
 """
 Routes to Documents page, filling with content along the way.
@@ -70,3 +73,32 @@ def routeToDocumentsPage(request, originalContext):
 def documentsPage(request):
     context = {}
     return routeToDocumentsPage(request, context)
+
+@login_required
+@transaction.atomic
+def deleteDocument(request):
+    print 'DELETE DOCUMENT TASK'
+    user = request.user
+    if request.method != 'POST' or 'id' not in request.POST:
+        # Error case
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    try:
+        brother = Brother.objects.get(user__username=user)
+        if not brother.hasEcPower():
+            return HttpResponse(json.dumps({}), content_type="application/json")
+    except Brother.DoesNotExist:
+        # Error case
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    docid = request.POST['id']
+    try:
+        doc = Document.objects.get(id=docid)
+    except Document.DoesNotExist:
+        # Error case
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    s3_delete(doc.filename)
+    doc.delete()
+
+    return HttpResponse(json.dumps({}), content_type="application/json")
