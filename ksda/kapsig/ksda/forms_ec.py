@@ -17,7 +17,6 @@ class SendEmailForm(forms.Form):
         super(SendEmailForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        print 'send email form'
         cleaned_data = super(SendEmailForm, self).clean()
 
         title = cleaned_data.get('email_title')
@@ -28,6 +27,5 @@ class SendEmailForm(forms.Form):
         if content == '' or content == None:
             raise forms.ValidationError('Content needed to send email')
 
-        print 'valid title and content'
         return cleaned_data
 

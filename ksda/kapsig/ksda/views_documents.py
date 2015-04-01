@@ -77,7 +77,6 @@ def documentsPage(request):
 @login_required
 @transaction.atomic
 def deleteDocument(request):
-    print 'DELETE DOCUMENT TASK'
     user = request.user
     if request.method != 'POST' or 'id' not in request.POST:
         # Error case

@@ -136,10 +136,8 @@ class Waitsession(models.Model):
         return self.completed
 
     def toggleComplete(self):
-        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
-        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class WorksessionTask(models.Model):
     name = models.CharField(max_length=128)
@@ -166,10 +164,8 @@ class Worksession(models.Model):
         return self.completed
 
     def toggleComplete(self):
-        print "Units BEFORE: " + str(self.brotherinfo.units)
         self.completed = not self.completed
         self.brotherinfo.units += 1 if self.completed else -1
-        print "Units AFTER: " + str(self.brotherinfo.units)
 
 class Group(models.Model):
     name = models.CharField(max_length=128)

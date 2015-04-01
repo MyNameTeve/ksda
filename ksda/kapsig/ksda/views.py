@@ -34,9 +34,6 @@ Only called when DB is empty. First brother will get EC powers.
 """
 @transaction.atomic
 def initializeBrotherhood(brother):
-    print 'FOUNDING BROTHERHOOD'
-    print 'CREATING ADMIN'
-    
     """
     ec = Group.objects.create(name='ec')
     ec.save()

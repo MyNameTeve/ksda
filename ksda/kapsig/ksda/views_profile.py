@@ -63,13 +63,11 @@ def routeToProfile(request, user, context):
 
 @login_required
 def profilePage(request):
-    print 'profilePage'
     context = {}
     return routeToProfile(request, request.user, context)
 
 @login_required
 def profilePageObserved(request, observedUserName):
-    print 'profilePageObserved'
     user = User.objects.get(username=observedUserName)
     context = {}
     return routeToProfile(request, user, context)

@@ -157,7 +157,6 @@ def deleteWorksession(request):
 @login_required
 @transaction.atomic
 def deleteWorksessionTask(request):
-    print 'DELETE WORKSESSION TASK'
     context = {}
     user = request.user
     if request.method != 'POST':
@@ -189,7 +188,6 @@ def deleteWorksessionTask(request):
 def addWorksessionTask(request):
     context = {}
     user = request.user
-    print 'ADD WORKSESSION TASK'
     if request.method != 'POST':
         context['dangerMessage'] = 'You can only add worksessions using POST requests.'
         return routeToPage(request, context)
@@ -212,11 +210,9 @@ def addWorksessionTask(request):
         ws = WorksessionTask.objects.get(name=form.cleaned_data['taskName'])
         ws.active = True
         ws.save()
-        print 'Re-activated task'
     except WorksessionTask.DoesNotExist:
         ws = WorksessionTask.objects.create(name=form.cleaned_data['taskName'])
         ws.save()
-        print 'Created new task'
 
     context['successMessage'] = 'Worksession Task Added.'
     return routeToPage(request, context)
