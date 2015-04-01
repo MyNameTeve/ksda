@@ -34,6 +34,7 @@
         </form>
     </div>
 
+    {% if ecPower %}
     <div> <!-- Update Profile Advanced !-->
         <h4> Update Profile (EC Access Only)</h4>
         {% for error in updateProfileAdvancedForm.non_field_errors %}
@@ -62,6 +63,7 @@
         <input type="submit" value="Update Profile" />
         </form>
     </div>
+    {% endif %}
 
     <div> <!-- Change Password !-->
         <h4> Change Password </h4>
