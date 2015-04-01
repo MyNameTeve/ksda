@@ -24,6 +24,25 @@
         {% endfor %}
     </table>
 
+    <h2> Pledge Roll </h2>
+    <table class="table table-striped" data-toggle="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+    
+        {% for pledge in pledges %}
+        <tr>
+            <td> <a href='{{ pledge.0 }}'>{{ pledge.1 }}</a> </td>
+            <td> {{ pledge.2 }} </td>
+            <td> {{ pledge.3 }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+
     {% if ecPower == True %}
         <h2> EC User: {{ user.first_name }} {{ user.last_name }} ({{ user }})</h2>
         <div> <!-- Edit Roles !-->

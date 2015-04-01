@@ -82,6 +82,12 @@ class Brother(models.Model):
                 self.email, 
                 self.number, 
                 self.getRolesPretty()]
+    
+    def pledgeRollInfo(self):
+        return [reverse('ksda.views.profilePageObserved', None, [str(self.user.username)]),
+                self.getName(),
+                self.email,
+                self.number]
 
     def getRoles(self):
         roles = Role.objects.filter(brother=self)
