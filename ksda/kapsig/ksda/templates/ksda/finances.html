@@ -1,6 +1,46 @@
 {% extends 'ksda/base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}Finances{% endblock %}
 
 {% block bodyBlock %}
-    <p> Finances page -- coming soon! </p>
+    <h2> Finances </h2>
+
+    <table class="table table-striped" data-toggle="table">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Finer</th>
+                <th>Chair</th>
+                <th>Finee</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Comment</th>
+                {% if ecPower %}
+                <th>Delete?</th>
+                <th>Mark Complete?</th>
+                {% endif %}
+            </tr>
+        </thead>
+    
+        {% for fine in fines %}
+        <tr>
+            <td> {{ fine.amount }} </td>
+            <td> {{ fine.finer }} </td>
+            <td> {{ fine.chair }} </td>
+            <td> {{ fine.finee }} </td>
+            <td> {{ fine.created }} </td>
+            <td> {{ fine.updated }} </td>
+            <td> {{ fine.comment }} </td>
+            {% if ecPower %}
+            <td> <div id={{ fine.id }}>
+                    <button class='fineDelete'> Delete </button>
+                 </div>
+            </td>
+            <td> <div id={{ fine.id }}>
+                    <button class='fineComplete'> Complete </button>
+                 </div>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
