@@ -59,8 +59,8 @@ def initializeBrotherhood(brother):
     """
 
     # Used for pre-populating database with already existing documents.
-    documents = initialize()
-    
+    documents = initializeDocuments()
+
     for document in documents:
         filename = document.name
         url = document.generate_url(expires_in=0, query_auth=False)
@@ -182,7 +182,6 @@ def confirm_registration(request, username, token):
     return render(request, 'ksda/confirmed.html', {})
 
 def doLogin(request):
-    print 'doLogin'
     username = request.POST['username']
     password = request.POST['password']
 
@@ -198,6 +197,5 @@ def doLogin(request):
         print 'no user'
 
 def showMain(request):
-    print 'showMain'
     context = {}
     return render(request, 'ksda/index.html', context)
