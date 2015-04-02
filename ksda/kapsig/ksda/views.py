@@ -28,6 +28,8 @@ from views_brotherRoll import *
 from views_forum import *
 from views_threads import *
 from views_documents import *
+from views_finances import *
+from views_calendar import *
 
 """
 Only called when DB is empty. First brother will get EC powers.
@@ -194,17 +196,6 @@ def doLogin(request):
             print 'not active'
     else:
         print 'no user'
-
-@login_required
-def financesPage(request):
-    print 'financesPage'
-    context = {}
-    return render(request, 'ksda/finances.html', context)
-
-@login_required
-def calendarPage(request):
-    context = {}
-    return render(request, 'ksda/calendar.html', context) 
 
 def showMain(request):
     print 'showMain'
