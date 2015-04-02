@@ -3,6 +3,7 @@
 
 {% block bodyBlock %}
     <h2> Brother Roll </h2>
+    {% if brothers %}
     <table class="table table-striped" data-toggle="table">
         <thead>
             <tr>
@@ -23,7 +24,9 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
 
+    {% if pledges %}
     <h2> Pledge Roll </h2>
     <table class="table table-striped" data-toggle="table">
         <thead>
@@ -42,6 +45,7 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
 
     {% if ecPower == True %}
         <h2> EC User: {{ user.first_name }} {{ user.last_name }} ({{ user }})</h2>

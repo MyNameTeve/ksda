@@ -32,6 +32,7 @@
         <input type="submit" value="upload" />
     </form>
 
+    {% if documents %}
     <h2> Document Repository </h2>
     <table class="table table-striped" data-toggle="table">
         <thead>
@@ -54,10 +55,12 @@
             <td> {{ document.updated }} </td>
             {% if ecPower %}
             <td> <div id={{ document.id }}>
-                    <button class='documentDelete'> Delete </button> </td>
+                    <button class='documentDelete'> Delete </button>
                  </div>
+            </td>
             {% endif %}
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
 {% endblock %}
