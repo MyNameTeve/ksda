@@ -185,8 +185,6 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.text
 
-
-
 class Item(models.Model):
     text = models.CharField(max_length=160)
     brother = models.ForeignKey('Brother', null=True)
