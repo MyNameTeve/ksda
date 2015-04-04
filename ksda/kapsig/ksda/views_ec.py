@@ -32,7 +32,6 @@ def routeToEcPage(request, originalContext):
 
 @login_required
 def ecPage(request):
-    print 'ecPage'
     context = {}
     if isEcMember(request):
         context['successMessage'] = 'Welcome, EC member!'
@@ -44,7 +43,6 @@ def ecPage(request):
 @login_required
 @transaction.atomic
 def sendEmail(request):
-    print 'Send email function!'
     context = {}
     
     user = request.user
@@ -52,7 +50,6 @@ def sendEmail(request):
     context['sendEmailForm'] = form
 
     if not form.is_valid():
-        print 'invalid email form'
         return routeToEcPage(request, context)
 
 

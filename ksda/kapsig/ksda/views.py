@@ -28,15 +28,14 @@ from views_brotherRoll import *
 from views_forum import *
 from views_threads import *
 from views_documents import *
+from views_finances import *
+from views_calendar import *
 
 """
 Only called when DB is empty. First brother will get EC powers.
 """
 @transaction.atomic
 def initializeBrotherhood(brother):
-    print 'FOUNDING BROTHERHOOD'
-    print 'CREATING ADMIN'
-    
     """
     ec = Group.objects.create(name='ec')
     ec.save()
@@ -60,8 +59,8 @@ def initializeBrotherhood(brother):
     """
 
     # Used for pre-populating database with already existing documents.
-    documents = initialize()
-    
+    documents = initializeDocuments()
+
     for document in documents:
         filename = document.name
         url = document.generate_url(expires_in=0, query_auth=False)
@@ -183,7 +182,6 @@ def confirm_registration(request, username, token):
     return render(request, 'ksda/confirmed.html', {})
 
 def doLogin(request):
-    print 'doLogin'
     username = request.POST['username']
     password = request.POST['password']
 
@@ -198,18 +196,6 @@ def doLogin(request):
     else:
         print 'no user'
 
-@login_required
-def financesPage(request):
-    print 'financesPage'
-    context = {}
-    return render(request, 'ksda/finances.html', context)
-
-@login_required
-def calendarPage(request):
-    context = {}
-    return render(request, 'ksda/calendar.html', context) 
-
 def showMain(request):
-    print 'showMain'
     context = {}
     return render(request, 'ksda/index.html', context)

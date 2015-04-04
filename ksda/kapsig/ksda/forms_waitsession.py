@@ -35,7 +35,6 @@ class NewWaitsessionForm(forms.Form):
         super(NewWaitsessionForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        print 'cleaning new waitsession form'
         cleaned_data = super(NewWaitsessionForm, self).clean()
 
         date = cleaned_data.get('date')
@@ -62,7 +61,6 @@ class NewWaitunitForm(forms.Form):
         super(NewWaitunitForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        print 'cleaning new waitunit form'
         cleaned_data = super(NewWaitunitForm, self).clean()
 
         newUnits = cleaned_data.get('newUnits')

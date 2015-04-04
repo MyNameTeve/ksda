@@ -34,7 +34,6 @@ class NewWorksessionForm(forms.Form):
         self.fields['taskName'] = forms.ChoiceField(label='Task Name', choices=[(task, task.name) for task in WorksessionTask.objects.filter(active=True)])
 
     def clean(self):
-        print 'cleaning new worksession form'
         cleaned_data = super(NewWorksessionForm, self).clean()
 
         date = cleaned_data.get('date')
@@ -64,7 +63,6 @@ class NewWorksessionTaskForm(forms.Form):
     def clean(self):
         cleaned_data = super(NewWorksessionTaskForm, self).clean()
         name = cleaned_data.get('taskName')
-        print name
         if WorksessionTask.objects.filter(name=name).filter(active=True).exists():
             raise forms.ValidationError('Task already exists')
         

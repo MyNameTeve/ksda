@@ -57,7 +57,6 @@ class UpdateProfileStandardForm(forms.Form):
     freeThisWeekend = forms.BooleanField(label="Free for Worksession this Weekend", required=False)
 
     def __init__(self, *args, **kwargs):
-        print 'init'
         self.username = kwargs.pop('username', None)
         self.canEdit = kwargs.pop('canEdit', None)
         super(UpdateProfileStandardForm, self).__init__(*args, **kwargs)

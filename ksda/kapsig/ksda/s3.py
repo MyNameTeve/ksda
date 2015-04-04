@@ -39,7 +39,7 @@ def s3_delete(filename):
     k.delete()
 
 # Used for pre-populating database with already existing documents.
-def initialize():
+def initializeDocuments():
     s3conn = boto.connect_s3(AWS_ACCESS_KEY,AWS_SECRET_ACCESS_KEY)
     bucket = s3conn.get_bucket(S3_BUCKET)
     return bucket.list()
