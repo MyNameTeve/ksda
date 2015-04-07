@@ -58,6 +58,9 @@ def initializeBrotherhood(brother):
     m.delete()
     """
 
+    # Used for pre-populating database with roles.
+    initializeRoles()
+    
     # Used for pre-populating database with already existing documents.
     documents = initializeDocuments()
 
@@ -108,7 +111,8 @@ def register(request):
     new_brother = Brother(user=new_user,
                           worksessionbrotherinfo=new_worksessioninfo,
                           waitsessionbrotherinfo=new_waitsessioninfo,
-                          email=form.cleaned_data['email'])
+                          email=form.cleaned_data['email'],
+                          venmoID=form.cleaned_data['venmoID'])
     new_brother.save()
 
     # First brother in the brotherhood - no email confirmation required.
@@ -143,7 +147,10 @@ def register(request):
         ec = Role.objects.filter(ecPower=True)
         ec_member_emails = []
         for member in ec:
-            ec_member_emails.append(member.brother.email)
+            try:
+                ec_member_emails.append(member.brother.email)
+            except:
+                continue
     
         #Send email to admin for approval.
         send_mail(subject="New Registration Requires Your Approval",

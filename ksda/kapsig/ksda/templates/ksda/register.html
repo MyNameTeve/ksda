@@ -8,7 +8,7 @@
     {{ error }}
     </p>
 {% endfor %}
-
+<p> To get your Venmo ID, please click <a href=https://developer.venmo.com/docs/widgets/venmo-button>here</a> and log-in using the Venmo Button widget. </p>
 <form method="post" action="{% url 'register' %}">
 {% csrf_token %}
 <table>
