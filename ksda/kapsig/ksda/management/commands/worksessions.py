@@ -7,9 +7,7 @@ class Command(BaseCommand):
 	args = '<>'
 	def handle(self, *args, **options):
 		brothers = Brother.objects.all().filter(active=True,worksessionbrotherinfo__freeThisWeekend=True).order_by("worksessionbrotherinfo__units","-order")
-		#brothers = brothers.order_by("worksessionbrotherinfo__units")
-		#brothers.filter(worksessionBrotherInfo__freeThisWeekend=True)
-		#wsInfo = WorksessionBrotherInfo.all().filter(freeThisWeekend=True).order_by("units")
+		
 
 		ws = WorksessionTask.objects.all().filter(active=True)
 		wb = []
@@ -17,11 +15,10 @@ class Command(BaseCommand):
 		#for b in brothers:
 		count = -1	
 		today = datetime.date.today()
-		date = today + datetime.timedelta(days=6)
+		date = today + datetime.timedelta(days=5)
 
 		for wt in ws:
 			wsl.append(wt)
-		#for x in xrange(len(wsl)):
 
 		for b in brothers:
 			count += 1
