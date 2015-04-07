@@ -27,6 +27,9 @@ urlpatterns = patterns('',
     url(r'^getWaitsessionInfo$', 'ksda.views.getWaitsessionInfo', name='getWaitsessionInfo'),
 
     url(r'^finances$', 'ksda.views.financesPage', name='finances'),
+    url(r'^newFine$', 'ksda.views.newFine', name='newFine'),
+    url(r'^deleteFine$', 'ksda.views.deleteFine', name='deleteFine'),
+    url(r'^completeFine$', 'ksda.views.completeFine', name='completeFine'),
     
     url(r'^forum$', 'ksda.views.forumPage', name='forum'),
     url(r'^post/(?P<id>\d+)$', 'ksda.views.post', name = 'post'),
