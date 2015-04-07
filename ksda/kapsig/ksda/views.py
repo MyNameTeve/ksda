@@ -61,6 +61,8 @@ def initializeBrotherhood(brother):
     # Used for pre-populating database with already existing documents.
     documents = initializeDocuments()
 
+
+
     for document in documents:
         filename = document.name
         url = document.generate_url(expires_in=0, query_auth=False)
@@ -69,6 +71,8 @@ def initializeBrotherhood(brother):
                                 url=url)
         new_document.save()
 
+    #add the work sessions to the data bases
+    initializeWorksessions()
 
 @transaction.atomic
 def register(request):

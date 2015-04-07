@@ -59,5 +59,31 @@ def new_thread(request):
     context['threads'] = threads
     context['errors'] = errors
     context['successMessage'] = 'Created new thread.'
+
+    #Send out an email to the brotherhood for a new forum post
+    brothers = Brother.objects.all().filter(active=True)
+    emails=[]
+    for b in brothers:
+        emails.append(b.email)
+
+    email_body = """
+    
+            A new user, %s %s, has created a new forum post. \n
+            Title:  %s \n
+            %s 
+        """ % (request.user.first_name,
+               request.user.last_name,
+               threadform.cleaned_data['Title'],
+               threadform.cleaned_data['Content'])
+
+       
+        
+    
+    #send the email to everyone
+    send_mail(subject="New Post to the KSDA Forum",
+                message=email_body,
+                from_email="kappasigmadeltaalpha@gmail.com",
+                recipient_list=emails)
+
     return render(request, 'ksda/forum.html', context)
 
