@@ -7,28 +7,28 @@ class Command(BaseCommand):
 	args = '<>'
 	def handle(self, *args, **options):
 		brothers = Brother.objects.all().filter(active=True,worksessionbrotherinfo__freeThisWeekend=True).order_by("worksessionbrotherinfo__units","-order")
-		
+		tasks = WorksessionTask.objects.all().filter(active=True)
 
-		ws = WorksessionTask.objects.all().filter(active=True)
 		wb = []
 		wsl = []
-		#for b in brothers:
+
 		count = -1	
 		today = datetime.date.today()
 		date = today + datetime.timedelta(days=5)
 
-		for wt in ws:
-			wsl.append(wt)
+		for task in tasks:
+			wsl.append(task)
 
 		for b in brothers:
 			count += 1
 			if (count >= len(wsl)):
-				print date
+				break
 			else:
-				ws = Worksession.objects.create(date=date,
+				new_worksession = Worksession.objects.create(date=date,
                                     brotherinfo=b.worksessionbrotherinfo,
                                     task=wsl[count])
-    			ws.save()
+    			new_worksession.save()
+    	
     	worksessions = Worksession.objects.all()
     	
 
