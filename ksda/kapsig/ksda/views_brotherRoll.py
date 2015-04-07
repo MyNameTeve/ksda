@@ -121,3 +121,125 @@ def deleteRole(request):
     context['successMessage'] = 'Role Deleted'
 
     return routeToBrotherRollPage(request, context)
+
+# Initializes all the roles of the system.
+def initializeRoles():
+    Role.objects.create(name='Grand Master',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=True)
+
+    Role.objects.create(name='Grand Procurator',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=True)
+
+    Role.objects.create(name='Grand Master of Ceremonies',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=True)
+
+    Role.objects.create(name='Grand Scribe',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=True)
+
+    Role.objects.create(name='Grand Treasurer',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=True)
+
+    Role.objects.create(name='House Manager',
+                        finePower=True,
+                        worksessionPower=True,
+                        waitsessionPower=True,
+                        ecPower=False)
+
+    Role.objects.create(name='Social',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Pledge Educator',
+                        finePower=False,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Rush',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Philanthropy',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Alumni Relations',
+                        finePower=False,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Scholarship',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Publications',
+                        finePower=False,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Design',
+                        finePower=False,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Greek Sing Performance',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Greek Sing Philanthropy',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Booth Overall',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Booth Structural',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)    
+
+    Role.objects.create(name='Booth Decorative',
+                        finePower=True,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)
+
+    Role.objects.create(name='Intramural Sports',
+                        finePower=False,
+                        worksessionPower=False,
+                        waitsessionPower=False,
+                        ecPower=False)

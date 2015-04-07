@@ -11,6 +11,7 @@ from forms_worksession import *
 from forms_brotherRoll import *
 from forms_s3 import *
 from forms_forum import *
+from forms_finances import *
 
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(max_length = 30)
@@ -25,7 +26,10 @@ class RegistrationForm(forms.Form):
                                 widget = forms.PasswordInput())
     password2 = forms.CharField(max_length = 200,
                                 label='Confirm Password',
-                                widget = forms.PasswordInput())\
+                                widget = forms.PasswordInput())
+    venmoID = forms.CharField(max_length = 20,
+                              label = 'Venmo ID',
+                              required = False)
 
     # Customizes form validation for properties that apply to more
     # than one field.  Overrides the forms.Form.clean function.

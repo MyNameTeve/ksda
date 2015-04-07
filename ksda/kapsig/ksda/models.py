@@ -37,14 +37,16 @@ class WorksessionBrotherInfo(models.Model):
         return [self.brother.order, self.brother.getName(), str(self.units), self.freeThisWeekend]
 
 class Fine(models.Model):
-    date = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
     reason = models.CharField(max_length=128)
     brother = models.ForeignKey('Brother', related_name='assignee')
     assignedBy = models.ForeignKey('Brother', related_name='assigner')
-    amount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    completed = models.BooleanField(default=False)
+    chair = models.ForeignKey('Role',related_name='chair')
     
     def __str__(self):
-        return '[' + str(self.date.strftime("%b %d, %Y")) + '] ' + \
+        return '[' + str(self.created.strftime("%b %d, %Y")) + '] ' + \
                '$' + str(self.amount) + ' to ' + self.brother.getName() + ' from ' + self.assignedBy.getName() + \
                ' because ' + str(reason)
 
@@ -68,6 +70,7 @@ class Brother(models.Model):
     number = models.CharField(max_length=30,default='555-555-5555')
     waitsessionbrotherinfo = models.OneToOneField(WaitsessionBrotherInfo)
     worksessionbrotherinfo = models.OneToOneField(WorksessionBrotherInfo)
+    venmoID = models.CharField(max_length=20)
 
     def __str__(self):
         return self.user.username
