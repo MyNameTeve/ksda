@@ -28,6 +28,12 @@ def getUserInfo(request, user, originalContext):
     if 'updateProfileStandardForm' not in originalContext:
         phoneNumber = brother.number
         email = brother.email
+        
+        try:
+            venmoID = brother.venmoID
+        except:
+            venmoID = ''
+
         freeM = brother.waitsessionbrotherinfo.freeM
         freeT = brother.waitsessionbrotherinfo.freeT
         freeW = brother.waitsessionbrotherinfo.freeW
@@ -37,6 +43,7 @@ def getUserInfo(request, user, originalContext):
         context['updateProfileStandardForm'] = UpdateProfileStandardForm(canEdit=canEdit,
                                                                          initial={'phoneNumber': phoneNumber,
                                                                                   'email': email,
+                                                                                  'venmoID': venmoID,
                                                                                   'freeM': freeM,
                                                                                   'freeT': freeT,
                                                                                   'freeW': freeW,
@@ -105,6 +112,7 @@ def updateProfileStandard(request):
     
     brother.number = form.cleaned_data['phoneNumber']
     brother.email = form.cleaned_data['email']
+    brother.venmoID = form.cleaned_data['venmoID']
     brother.waitsessionbrotherinfo.freeM = form.cleaned_data['freeM']
     brother.waitsessionbrotherinfo.freeT = form.cleaned_data['freeT']
     brother.waitsessionbrotherinfo.freeW = form.cleaned_data['freeW']

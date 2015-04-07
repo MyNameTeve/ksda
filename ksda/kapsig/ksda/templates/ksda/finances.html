@@ -28,7 +28,7 @@
             var jqxhr = $.post( "{% url 'completeFine' %}",
                                {id:fineid, csrfmiddlewaretoken: '{{ csrf_token }}'},
                                function(response) {
-                                    //$(e.target).closest('tr').remove();
+                                    $(e.target).closest('tr').attr('class', success);
             });
         });
     });
@@ -44,7 +44,6 @@
                 <th>Finee</th>
                 <th>Created</th>
                 <th>Comment</th>
-                <th>Completed</th>
                 <th>Pay?</th>
                 {% if finingPower %}
                 <th>Delete?</th>
@@ -54,21 +53,21 @@
         </thead>
     
         {% for fine in fines %}
-            <tr>
+            {% if fine.completed %}
+            <tr class="success">
+            {% else %}
+            <tr class="danger">
+            {% endif %}
                 <td> ${{ fine.amount }} </td>
                 <td> {{ fine.assignedBy.user.first_name }} {{ fine.assignedBy.user.last_name }} </td>
                 <td> {{ fine.chair }} </td>
                 <td> {{ fine.brother.user.first_name }} {{ fine.brother.user.last_name }} </td>
                 <td> {{ fine.created }} </td>
                 <td> {{ fine.reason }} </td>
-                <td> {{ fine.completed }} </td>
                 <td> {% if GT.venmoID %}
-                     {% if brother.venmoID %}
                      {% if fine.completed == False %}
                      {% if fine.brother == brother %}
                         <a class="venmo-pay-button" data-recipient-id="{{ GT.venmoID }}" data-amount="{{ fine.amount }}"/></a>
-                        <!--<a class="venmo-pay-button" data-recipient-id="1227001541165056826" data-amount="1.00"/></a>!-->
-                     {% endif %}
                      {% endif %}
                      {% endif %}
                      {% endif %}

@@ -49,6 +49,7 @@ class ChangePasswordForm(forms.Form):
 class UpdateProfileStandardForm(forms.Form):
     email = forms.EmailField()
     phoneNumber = forms.CharField(label="Phone Number")
+    venmoID = forms.CharField(label='Venmo ID', required=False)
     freeM = forms.BooleanField(label="Free for Waitsession on Monday", required=False)
     freeT = forms.BooleanField(label="Free for Waitsession on Tuesday", required=False)
     freeW = forms.BooleanField(label="Free for Waitsession on Wednesday", required=False)
