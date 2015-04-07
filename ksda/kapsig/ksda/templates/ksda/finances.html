@@ -64,10 +64,12 @@
                 <td> {{ fine.completed }} </td>
                 <td> {% if GT.venmoID %}
                      {% if brother.venmoID %}
-                        {% if fine.brother == brother %}
-                        <!--<a class="venmo-pay-button" data-recipient-id="{{ GT.venmoID }}" data-amount="{{ fine.amount }}"/></a><!-->
-                        <a class="venmo-pay-button" data-recipient-id="1227001541165056826" data-amount="1.00"/></a>
-                        {% endif %}
+                     {% if fine.completed == False %}
+                     {% if fine.brother == brother %}
+                        <a class="venmo-pay-button" data-recipient-id="{{ GT.venmoID }}" data-amount="{{ fine.amount }}"/></a>
+                        <!--<a class="venmo-pay-button" data-recipient-id="1227001541165056826" data-amount="1.00"/></a>!-->
+                     {% endif %}
+                     {% endif %}
                      {% endif %}
                      {% endif %}
                 </td>
