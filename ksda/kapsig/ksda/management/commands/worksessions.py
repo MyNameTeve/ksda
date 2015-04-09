@@ -14,7 +14,9 @@ class Command(BaseCommand):
 
 		count = -1	
 		today = datetime.date.today()
-		date = today + datetime.timedelta(days=5)
+		#set the day=3 so that today is thursday and it will assign the worksessions for sunday
+		#if you change the day that the system assigns worksessions then change the days offset
+		date = today + datetime.timedelta(days=3)
 
 		for task in tasks:
 			wsl.append(task)
