@@ -28,7 +28,7 @@
             var jqxhr = $.post( "{% url 'completeFine' %}",
                                {id:fineid, csrfmiddlewaretoken: '{{ csrf_token }}'},
                                function(response) {
-                                    $(e.target).closest('tr').attr('class', success);
+                                    $(e.target).closest('tr').addClass('success').removeClass('danger');
             });
         });
     });
@@ -77,9 +77,11 @@
                         <button class='fineDelete'> Delete </button>
                      </div>
                 </td>
-                <td> <div id={{ fine.id }}>
+                <td> {% if fine.completed == False %}
+                	 <div id={{ fine.id }}>
                         <button class='fineComplete'> Complete </button>
                      </div>
+                     {% endif %}
                 </td>
                 {% endif %}
             </tr>
