@@ -68,7 +68,7 @@ def new_thread(request):
 
     email_body = """
     
-            A new user, %s %s, has created a new forum post. \n
+            %s %s, has created a new forum post. \n
             Title:  %s \n
             %s 
         """ % (request.user.first_name,
