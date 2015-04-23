@@ -4,7 +4,7 @@
 {% block bodyBlock %}
 <div>
     <p>
-        <div class = "post-list">
+        <div>
         <ol class = "list-group" id = "list-group">
             <h1> Title: {{title}} </h1>
             <table class="table table-striped" data-toggle="table">
@@ -16,7 +16,7 @@
                     </thead>
             <tr>
                 <td>
-            <b> User: {{user_profile.user}}   </b>
+            <b> User: {{brother.user}}   </b>
         </td>
         <td>
             <div class = "post-info"> {{content}} </div>
@@ -31,7 +31,7 @@
 </div>
 
 
-<div class = "post-list">
+<div>
     <form class = "form-post" action="{% url 'post' thread.threadID %}" method="post" >
         {{postform}}
         <input type="submit" text="Add item">

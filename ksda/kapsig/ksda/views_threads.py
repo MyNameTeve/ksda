@@ -37,11 +37,12 @@ from django.contrib.auth.tokens import default_token_generator
 def threads(request, id):
     #determines the thread id you are looking at and gets the thread object
     thread = Thread.objects.get(threadID = id)
+    brother = thread.brother
 
     #items are the responses to that thread
     items = thread.responses.all
     user_profile = Brother.objects.get(user=request.user)
-    return render(request, 'ksda/thread.html', {'items' : items, 'user_profile' : user_profile, 'postform': PostForm(), 'title': thread.title, 'content': thread.content, 'thread': thread})
+    return render(request, 'ksda/thread.html', {'items' : items, 'user_profile' : user_profile, 'postform': PostForm(), 'title': thread.title,'brother': brother, 'content': thread.content, 'thread': thread})
 
 
 
@@ -57,12 +58,15 @@ def post(request, id):
     thread = Thread.objects.get(threadID = id)
     items = thread.responses.all
     user_profile = Brother.objects.get(user=request.user)
+    print thread.brother.user
+    brother = thread.brother
 
     #if you are just getting then return the original information
     if request.method == 'GET':
         context['postform'] = PostForm()
         context['items'] = items
         context['errors'] = errors
+        context['brother'] = brother
         context['thread'] = thread
         context['user_profile'] = user_profile
         context['title'] = thread.title
@@ -79,6 +83,7 @@ def post(request, id):
         context['items'] = items
         context['errors'] = errors
         context['thread'] = thread
+        context['brother'] = brother
         context['user_profile'] = user_profile
         context['title'] = thread.title
         context['content'] = thread.content 
@@ -87,6 +92,7 @@ def post(request, id):
     #otherwise create a new item to be posted and added to items
 
     user_profile = Brother.objects.get(user=request.user)
+    brother = thread.brother
 
     
     new_item = Item(text=postform.cleaned_data['Post'], brother = user_profile, dateTime = timezone.now())
@@ -97,6 +103,7 @@ def post(request, id):
     context['items'] = items
     context['errors'] = errors
     context['thread'] = thread
+    context['brother'] = brother
     context['user_profile'] = user_profile
     context['title'] = thread.title
     context['content'] = thread.content
