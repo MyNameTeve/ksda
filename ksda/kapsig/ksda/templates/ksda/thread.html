@@ -2,24 +2,33 @@
 {% block title %}Home{% endblock %}
 
 {% block bodyBlock %}
-   <div class = "post-list">
-    <form class = "form-post" action="{% url 'post' thread.threadID %}" method="post" >
-        {{postform}}
-        <input type="submit" text="Add item">
-        {% csrf_token %}
-    </form>
-</div>
-
+<div>
     <p>
         <div class = "post-list">
-        <h1> {{title}} </h1>
-        <h2 class = "temp1"> {{content}} </h2>
         <ol class = "list-group" id = "list-group">
+            <h1> Title: {{title}} </h1>
+            <table class="table table-striped" data-toggle="table">
+                    <thead>
+                        <tr>
+                            <th>User Info</th>
+                            <th>Content</th>
+                        </tr>
+                    </thead>
+            <tr>
+                <td>
+            <b> User: {{user_profile.user}}   </b>
+        </td>
+        <td>
+            <div class = "post-info"> {{content}} </div>
+        </td>
+        </tr>
                 {% include 'ksda/stream.html' %}
-            
+           
+            </table>
         </ol>
     </div>
     </p>
+</div>
 
 
 <div class = "post-list">
