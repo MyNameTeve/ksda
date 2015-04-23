@@ -99,6 +99,8 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = '/static/'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2500000
 

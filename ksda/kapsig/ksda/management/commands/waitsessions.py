@@ -37,11 +37,11 @@ class Command(BaseCommand):
 		#get the desired day
 		offset =  6 - datetime.date.today().weekday()
 		#determine the date of the week for the different wait session days
-		dm = today + datetime.timedelta(days=(offset+1))
-		dt = today + datetime.timedelta(days=(offset+2))
-		dw = today + datetime.timedelta(days=(offset+3))
-		dh = today + datetime.timedelta(days=(offset+4))
-		df = today + datetime.timedelta(days=(offset+5))
+		m = today + datetime.timedelta(days=(offset+1))
+		t = today + datetime.timedelta(days=(offset+2))
+		w = today + datetime.timedelta(days=(offset+3))
+		h = today + datetime.timedelta(days=(offset+4))
+		f = today + datetime.timedelta(days=(offset+5))
 		#loop through all the brothers available for the given day and give them that waitsession
 		#once 3 are assigned break out of the loop
 		for b in monday:
