@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import ConfigParser
+import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -65,25 +66,11 @@ PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__)) + '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'ksda',                      # Or path to database file if using sqlite3.
-            # The following settings are not used with sqlite3:
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': 'localhost',             # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.
-            'PORT': '',                      # Set to empty string for default.
-        }
-    }
+DATABASES = {}
 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'] = db_from_env
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
