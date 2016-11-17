@@ -1,0 +1,7 @@
+{
+  "name": "KSDA",
+  "description": "The brother site",
+  "image": "heroku/python",
+  "addons": [ "heroku-postgresql" ],
+  "buildpacks":[{"url":"heroku/python"}]
+}

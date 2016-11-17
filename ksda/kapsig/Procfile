@@ -1,0 +1,1 @@
+web: gunicorn kapsig.wsgi --log-file -
