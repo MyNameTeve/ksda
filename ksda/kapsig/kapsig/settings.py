@@ -26,7 +26,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://env-ksda.mmyufhgrkc.us-east-1.elasticbeanstalk.com/']
 
 
 # Application definition
@@ -67,9 +67,13 @@ PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__)) + '/'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {}
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'] = db_from_env
+DATABASES['default']= { 'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('RDS_DB_NAME'),
+    'USER': os.environ.get('RDS_USERNAME'),
+    'PASSWORD': os.environ.get('RDS_PASSWORD'),
+    'HOST': os.environ.get('RDS_HOSTNAME'),
+    'PORT': os.environ.get('RDS_PORT'),
+}
 
 
 # Internationalization
@@ -93,11 +97,11 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 2500000
 
 
 # Email Stuff
-config = ConfigParser.ConfigParser()
-config.read("config.ini")
+#config = ConfigParser.ConfigParser()
+#config.read("config.ini")
 
-EMAIL_HOST = config.get('Email', 'Host')
-EMAIL_PORT = config.get('Email', 'Port')
-EMAIL_HOST_USER = config.get('Email', 'User')
-EMAIL_HOST_PASSWORD = config.get('Email', 'Password')
-EMAIL_USE_SSL = True
+#EMAIL_HOST = config.get('Email', 'Host')
+#EMAIL_PORT = config.get('Email', 'Port')
+#EMAIL_HOST_USER = config.get('Email', 'User')
+#EMAIL_HOST_PASSWORD = config.get('Email', 'Password')
+#EMAIL_USE_SSL = True

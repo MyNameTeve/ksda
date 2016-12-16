@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', 'ksda.views.profilePage'),
     
     url(r'^profile$', 'ksda.views.profilePage', name='profile'),
@@ -54,4 +54,4 @@ urlpatterns = patterns('',
     url(r'^logout$', 'django.contrib.auth.views.logout_then_login', name='logout'),
     url(r'^register$', 'ksda.views.register', name='register'),
     url(r'^confirm-registration/(?P<username>[a-zA-Z0-9_@\+\-]+)/(?P<token>[a-z0-9\-]+)$', 'ksda.views.confirm_registration', name='confirm'),
-)
+]
